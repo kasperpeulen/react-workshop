@@ -14,14 +14,21 @@ class Toaster extends React.Component {
     };
   }
 
-  onDismissToast() {
-    this.setState();
+  onDismissToast(uiId) {
+    this.setState((state) => {
+      return {data: state.data.filter(item => item.uiId !== uiId)}
+    });
   }
 
   render() {
+    const {data} = this.state;
     return (
       <div className="toast toast--bottom">
-        Toasts to render
+        {data.map(item => (
+          <Toast key={item.uiId}>
+            <Alert {...item} onDismiss={() => this.onDismissToast(item.uiId)} />
+          </Toast>
+        ))}
       </div>
     );
   }
